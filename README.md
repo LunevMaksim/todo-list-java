@@ -144,7 +144,7 @@ todo-list-java/
 **Максим** - студент ВГУ ФКН
 
 - GitHub: [LunevMaksim](https://github.com/LunevMaksim)
-- Telegram: [@Arbyzuk36](https://t.me/@Arbyzuk36)
+- Telegram: [@Arbyzuk36](https://t.me/Arbyzuk36)
 - Email: maksimlunev16@gmail.com
 
 ---
