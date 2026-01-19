@@ -1,7 +1,6 @@
 # To-Do List на Java
 
 [![Java](https://img.shields.io/badge/Java-17+-blue.svg)](https://java.com)
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
 Простой консольный менеджер задач с сохранением данных в файл. Учебный проект для закрепления основ Java Core.
 
