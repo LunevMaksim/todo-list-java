@@ -22,8 +22,9 @@ public class ToDoApp {
                 System.out.println("=== Меню команд ===");
                 System.out.println("1. Показать все задачи");
                 System.out.println("2. Добавить задачу");
-                System.out.println("3. Удалить задачу");
-                System.out.println("4. Выйти");
+                System.out.println("3. Редактировать задачу");
+                System.out.println("4. Удалить задачу");
+                System.out.println("5. Выйти");
                 System.out.print("Введите номер команды: ");
                 int num = scanner.nextInt();
                 scanner.nextLine();
@@ -36,9 +37,12 @@ public class ToDoApp {
                         list.addTask(scanner);
                         break;
                     case 3:
-                        list.removeTask(scanner);
+                        list.editTask(scanner);
                         break;
                     case 4:
+                        list.removeTask(scanner);
+                        break;
+                    case 5:
                         System.out.println("Удачи!");
                         val = false;
                         break;
