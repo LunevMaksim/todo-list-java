@@ -15,6 +15,7 @@ public class TaskList {
         loadFromFile();
     }
 
+    //Загружает из файла
     public void loadFromFile() {
         try {
             List<Task> loadedTasks = fileManager.loadAllTasks();
@@ -31,6 +32,7 @@ public class TaskList {
         }
     }
 
+    //Сохраняет в файл
     private void saveToFile() {
         try {
             fileManager.saveAllTasks(list);
@@ -39,6 +41,7 @@ public class TaskList {
         }
     }
 
+    //Добавляет задачу
     public void addTask(Scanner scanner) throws IOException {
         FileManager fileManager = new FileManager();
         Task task = new Task();
@@ -67,12 +70,12 @@ public class TaskList {
 
     }
 
+    //Удаляет задачу
     public void removeTask(Scanner scanner){
         if (getList().isEmpty() || getList() == null){
             System.out.println("Список задач пуст!");
         }
         else {
-
             System.out.print("Введите ID задачи, которую хотели бы удалить: ");
             try {
                 int number = scanner.nextInt();
@@ -86,6 +89,7 @@ public class TaskList {
                         if (getList().get(i).getId() == number){
                             System.out.println("Задача №" + number + " '" + getList().get(i).getTitle() + "' " + "была успешно удалена");
                             getList().remove(i);
+                            saveToFile();
                             found = true;
                             break;
                         }
@@ -100,6 +104,7 @@ public class TaskList {
         }
     }
 
+    //Вывод всех задач
     public void getAllTasks() throws FileNotFoundException {
         if (list.isEmpty()) {
             System.out.println("Список задач пуст");
@@ -111,6 +116,7 @@ public class TaskList {
         }
     }
 
+    //Изменение задачи
     public void editTask(Scanner scanner){
         if (list.isEmpty()) {
             System.out.println("Список задач пуст");
@@ -189,6 +195,8 @@ public class TaskList {
             saveToFile();
         }
     }
+
+    //Статус задачи
     public Status askForStatus(Scanner scanner) {
         System.out.print("Введите статус задачи(Новая, в работе, выполнена): ");
         String input = scanner.nextLine();

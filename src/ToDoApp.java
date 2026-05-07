@@ -15,6 +15,8 @@ public class ToDoApp {
         menu(scanner, list);
         scanner.close();
     }
+
+    // Меню
     public static void menu(Scanner scanner, TaskList list) throws IOException {
         boolean val = true;
         while (val){

@@ -74,7 +74,7 @@ public class Task {
                 status.name() + ";" + date + ";" + category;
     }
 
-
+    // Перевод из csv-формата в строку
     public static Task fromCsvString(String csvLine) {
         String[] parts = csvLine.split(";");
         if (parts.length != 6) {
