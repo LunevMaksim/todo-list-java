@@ -1,12 +1,9 @@
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 import java.util.List;
-import java.util.Scanner;
 
-public class TaskList {
+public class TaskList  {
     private List<Task> list = new ArrayList<>();
     private FileManager fileManager = new FileManager();
     private int nextId = 1;
@@ -28,7 +25,7 @@ public class TaskList {
                     .max()
                     .orElse(0) + 1;
         } catch (IOException e) {
-            System.out.println("Не удалось загрузить задачи: " + e.getMessage());
+            System.err.println("Не удалось загрузить задачи: " + e.getMessage());
         }
     }
 
@@ -37,159 +34,131 @@ public class TaskList {
         try {
             fileManager.saveAllTasks(list);
         } catch (IOException e) {
-            System.out.println("Ошибка при сохранении: " + e.getMessage());
+            System.err.println("Ошибка при сохранении: " + e.getMessage());
         }
     }
 
     //Добавляет задачу
-    public void addTask(Scanner scanner) throws IOException {
-        FileManager fileManager = new FileManager();
+    public void addTask(UserInput input) {
         Task task = new Task();
 
         task.setId(nextId++);
 
-        System.out.print("Введите заголовок задачи: ");
-        String title = scanner.nextLine();
+        String title = input.readLine("Введите заголовок задачи: ");
         task.setTitle(title);
 
-        System.out.print("Введите описание задачи: ");
-        String description = scanner.nextLine();
+        String description = input.readLine("Введите описание задачи: ");
         task.setDescription(description);
 
-        task.setStatus(askForStatus(scanner));
+        task.setStatus(askForStatus(input));
 
         task.setDate(LocalDate.now());
 
-        System.out.print("Введите категорию задачи: ");
-        String category = scanner.nextLine();
+        String category = input.readLine("Введите категорию задачи: ");
         task.setCategory(category);
 
         getList().add(task);
         saveToFile();
-        System.out.println("Задача была успешно добавлена!");
+        input.println("Задача была успешно добавлена!");
 
     }
 
     //Удаляет задачу
-    public void removeTask(Scanner scanner){
-        if (getList().isEmpty() || getList() == null){
-            System.out.println("Список задач пуст!");
+    public void removeTask(UserInput input){
+        if (getList().isEmpty()){
+            input.printError("Список задач пуст!");
         }
         else {
-            System.out.print("Введите ID задачи, которую хотели бы удалить: ");
-            try {
-                int number = scanner.nextInt();
-                int maxId = list.stream().mapToInt(Task::getId).max().orElse(0);
-                if (number < 1 || number > maxId){
-                    System.out.println("Такого ID не существует");
-                }
-                else {
-                    boolean found = false;
-                    for (int i = 0; i < getList().size(); i++) {
-                        if (getList().get(i).getId() == number){
-                            System.out.println("Задача №" + number + " '" + getList().get(i).getTitle() + "' " + "была успешно удалена");
-                            getList().remove(i);
-                            saveToFile();
-                            found = true;
-                            break;
-                        }
-                    }
-                    if (!found) {
-                        System.out.println("Задача с ID " + number + " не найдена");
+            int number = input.readInt("Введите ID задачи, которую хотели бы удалить: ");
+            int maxId = list.stream().mapToInt(Task::getId).max().orElse(0);
+            if (number < 1 || number > maxId){
+                input.printError("Такого ID не существует");
+            }
+            else {
+                boolean found = false;
+                for (int i = 0; i < getList().size(); i++) {
+                    if (getList().get(i).getId() == number){
+                        input.println("Задача №" + number + " '" + getList().get(i).getTitle() + "' " + "была успешно удалена");
+                        getList().remove(i);
+                        saveToFile();
+                        found = true;
+                        break;
                     }
                 }
-            } catch (InputMismatchException exception){
-                System.out.println("Ошибка! Неверный формат ID");
+                if (!found) {
+                    input.printError("Задача с ID " + number + " не найдена");
+                }
             }
         }
     }
 
     //Вывод всех задач
-    public void getAllTasks() throws FileNotFoundException {
+    public void getAllTasks(UserInput input) {
         if (list.isEmpty()) {
-            System.out.println("Список задач пуст");
+            input.println("Список задач пуст");
         }
         else {
             for (Task task : list) {
-                System.out.println(task);
+                input.println(String.valueOf(task));
             }
         }
     }
 
     //Изменение задачи
-    public void editTask(Scanner scanner){
+    public void editTask(UserInput input){
         if (list.isEmpty()) {
-            System.out.println("Список задач пуст");
+            input.printError("Список задач пуст");
             return;
         }
-        int idSearch;
-        while (true){
-            try {
-                System.out.print("Введите ID задачи для редактирования: ");
-                idSearch = scanner.nextInt();
-                break;
-            } catch (InputMismatchException exception){
-                System.out.println("Ошибка! Вы ввели не числовое значение!");
-                scanner.nextLine();
-            }
-        }
+        int idSearch = input.readInt("Введите ID задачи для редактирования: ");
         boolean valForSearch = false;
+
         for (int i = 0; i < getList().size(); i++) {
             if (getList().get(i).getId() == idSearch){
                 valForSearch = true;
                 Task taskEdit = getList().get(i);
-                System.out.println("Что вы хотели бы изменить?");
-                System.out.println("1.Название");
-                System.out.println("2.Описание");
-                System.out.println("3.Статус");
-                System.out.println("4.Категория");
+                input.println("Что вы хотели бы изменить?");
+                input.println("1.Название");
+                input.println("2.Описание");
+                input.println("3.Статус");
+                input.println("4.Категория");
                 boolean valForCommand = false;
                 while (!valForCommand){
-                    try {
-                        System.out.print("Введите номер команды: ");
-                        int num = scanner.nextInt();
-                        scanner.nextLine();
+                        int num = input.readInt("Введите номер команды: ");
                         switch (num){
                             case 1:
-                                System.out.print("Введите новое название: ");
-                                String newTitle = scanner.nextLine();
+                                String newTitle = input.readLine("Введите новое название: ");
                                 taskEdit.setTitle(newTitle);
-                                System.out.println("Название задачи №" + idSearch +" было успешно изменено");
+                                input.println("Название задачи №" + idSearch +" было успешно изменено");
                                 valForCommand = true;
                                 break;
                             case 2:
-                                System.out.print("Введите новое описание: ");
-                                String newDescription = scanner.nextLine();
+                                String newDescription = input.readLine("Введите новое описание: ");
                                 taskEdit.setDescription(newDescription);
                                 valForCommand = true;
-                                System.out.println("Описание задачи №" + idSearch +" было успешно изменено");
+                                input.println("Описание задачи №" + idSearch +" было успешно изменено");
                                 break;
                             case 3:
-                                taskEdit.setStatus(askForStatus(scanner));
+                                taskEdit.setStatus(askForStatus(input));
                                 valForCommand = true;
-                                System.out.println("Статус задачи №" + idSearch +" был успешно изменён");
+                                input.println("Статус задачи №" + idSearch +" был успешно изменён");
                                 break;
                             case 4:
-                                System.out.print("Введите новую категорию: ");
-                                String newCategory = scanner.nextLine();
+                                String newCategory = input.readLine("Введите новую категорию: ");
                                 taskEdit.setCategory(newCategory);
                                 valForCommand = true;
-                                System.out.println("Категория задачи №" + idSearch +" была успешно изменена");
+                                input.println("Категория задачи №" + idSearch +" была успешно изменена");
                                 break;
                             default:
-                                System.out.println("Ошибка! Номер команды введён неверно!");
+                                input.printError("Ошибка! Номер команды введён неверно!");
                         }
-                    } catch (InputMismatchException exception){
-                        System.out.println("Ошибка! Введено не числовое значение!");
-                        scanner.nextLine();
-                    }
                 }
                 break;
             }
         }
 
         if (!valForSearch){
-            System.out.println("Ошибка! Id не был найден");
+            input.printError("Ошибка! Id не был найден");
         }
         else{
             saveToFile();
@@ -197,18 +166,12 @@ public class TaskList {
     }
 
     //Статус задачи
-    public Status askForStatus(Scanner scanner) {
-        System.out.print("Введите статус задачи(Новая, в работе, выполнена): ");
-        String input = scanner.nextLine();
-        Status status = Status.fromRussianName(input);
-        if (status == null) {
-            System.out.println("Неверный статус! Установлено значение по умолчанию: Новая");
-            status = Status.NEW;
-        }
-        return status;
+    public Status askForStatus(UserInput input) {
+        return input.readStatus("Введите статус задачи(Новая, в работе, выполнена): ");
     }
 
     public List<Task> getList() {
         return list;
     }
+
 }
