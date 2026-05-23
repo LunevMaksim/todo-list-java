@@ -1,3 +1,5 @@
+package com.todolist;
+
 public enum Status {
     NEW("Новая"),
     IN_PROGRESS("В работе"),

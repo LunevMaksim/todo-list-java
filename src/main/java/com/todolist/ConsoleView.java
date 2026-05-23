@@ -1,3 +1,5 @@
+package com.todolist;
+
 public class ConsoleView {
 
     public ConsoleView() {}

@@ -1,3 +1,5 @@
+package com.todolist;
+
 public interface UserInput {
     String readLine(String prompt);
     int readInt(String prompt);

@@ -19,7 +19,7 @@
 
 ## ✨ Функционал
 
-### Консольная версия (`ToDoApp`)
+### Консольная версия (`com.todolist.ToDoApp`)
 - ✅ Добавление, просмотр, редактирование, удаление задач
 - ✅ Статусы (Новая, В работе, Выполнена) с интеллектуальным вводом
 - ✅ Категории, дата создания, автоматическая нумерация ID
@@ -29,7 +29,7 @@
 ### Графическая версия (`ToDoAppSwing`) – в разработке
 - 🚧 Главное окно с кнопками и областью вывода
 - 🚧 Иконка приложения (загружается из ресурсов)
-- 🚧 Интеграция с `TaskList` через `SwingUserInput`
+- 🚧 Интеграция с `com.todolist.TaskList` через `SwingUserInput`
 
 ## 🛠 Технологии
 
@@ -37,7 +37,7 @@
 - **Maven** – сборка и управление зависимостями
 - **Swing** – графический интерфейс (в процессе)
 - **CSV** – хранение данных
-- **UserInput** – абстракция ввода/вывода (позволяет легко менять UI)
+- **com.todolist.UserInput** – абстракция ввода/вывода (позволяет легко менять UI)
 
 ## 🚀 Установка и запуск
 
@@ -71,14 +71,14 @@ todo-list-java/
 │   │   │   ├── UI/             # Графический интерфейс
 │   │   │   │   ├── ToDoAppSwing.java
 │   │   │   │   └── SwingUserInput.java
-│   │   │   ├── ConsoleUserInput.java
-│   │   │   ├── ConsoleView.java
-│   │   │   ├── FileManager.java
-│   │   │   ├── Status.java
-│   │   │   ├── Task.java
-│   │   │   ├── TaskList.java
-│   │   │   ├── ToDoApp.java
-│   │   │   └── UserInput.java
+│   │   │   ├── com.todolist.ConsoleUserInput.java
+│   │   │   ├── com.todolist.ConsoleView.java
+│   │   │   ├── com.todolist.FileManager.java
+│   │   │   ├── com.todolist.Status.java
+│   │   │   ├── com.todolist.Task.java
+│   │   │   ├── com.todolist.TaskList.java
+│   │   │   ├── com.todolist.ToDoApp.java
+│   │   │   └── com.todolist.UserInput.java
 │   │   └── resources/          # Ресурсы
 │   │       └── images/
 │   │           └── icon.png    # Иконка приложения
@@ -89,12 +89,12 @@ todo-list-java/
 
 ## 🏗 Архитектура
 
-- **UserInput** – интерфейс для ввода/вывода (абстракция).
-- **ConsoleUserInput** – реализация для консоли.
+- **com.todolist.UserInput** – интерфейс для ввода/вывода (абстракция).
+- **com.todolist.ConsoleUserInput** – реализация для консоли.
 - **SwingUserInput** – реализация для графического интерфейса (будет использовать диалоги).
-- **TaskList** – бизнес-логика, не зависит от конкретного UI.
-- **FileManager** – работа с CSV.
-- **ToDoAppSwing** – главное окно, подключает `TaskList` и `SwingUserInput`.
+- **com.todolist.TaskList** – бизнес-логика, не зависит от конкретного UI.
+- **com.todolist.FileManager** – работа с CSV.
+- **ToDoAppSwing** – главное окно, подключает `com.todolist.TaskList` и `SwingUserInput`.
 
 Такое разделение позволяет легко заменять консоль на окна без изменения кода задач.
 

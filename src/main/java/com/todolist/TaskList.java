@@ -1,3 +1,5 @@
+package com.todolist;
+
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -30,7 +32,7 @@ public class TaskList  {
     }
 
     //Сохраняет в файл
-    private void saveToFile() {
+    public void saveToFile() {
         try {
             fileManager.saveAllTasks(list);
         } catch (IOException e) {
@@ -174,4 +176,15 @@ public class TaskList  {
         return list;
     }
 
+    public void removeTaskById(int id) {
+        boolean removed = list.removeIf(task -> task.getId() == id);
+        if (removed) {
+            saveToFile();
+        }
+    }
+    public void addTask(Task task) {
+        task.setId(nextId++);
+        list.add(task);
+        saveToFile();
+    }
 }
