@@ -1,0 +1,10 @@
+TaskList.class
+Task.class
+UI\SwingUserInput.class
+UI\ToDoAppSwing.class
+Status.class
+FileManager.class
+UserInput.class
+ToDoApp.class
+ConsoleView.class
+ConsoleUserInput.class
